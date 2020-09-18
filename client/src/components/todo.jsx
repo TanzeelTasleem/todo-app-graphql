@@ -6,7 +6,7 @@ export const Todo = () => {
   const [text, settext] = useState("");
   const { loading, data } = useQuery(get_Todo);
   const [createTodo] = useMutation(createNewTodo);
-  const [removeTodo]=useMutation(RemoveTodo)
+  const [removeTodo] = useMutation(RemoveTodo);
   console.log(text);
   loading ? console.log("loading ") : console.log(data.get_todo);
 
@@ -16,15 +16,15 @@ export const Todo = () => {
       variables: { title: text },
       refetchQueries: [{ query: get_Todo }],
     });
-    settext('')
+    settext("");
   };
 
-  const handleClick=(title)=>{
-      removeTodo({
-        variables : { title: title },
-        refetchQueries : [{query : get_Todo}]
-      })
-  }
+  const handleClick = (title) => {
+    removeTodo({
+      variables: { title: title },
+      refetchQueries: [{ query: get_Todo }],
+    });
+  };
   if (!loading) {
     return (
       <div>
@@ -38,19 +38,25 @@ export const Todo = () => {
             value={text}
           />
         </form>
-        <div >
-        <ul>
-          {data.get_todo.map((item, index) => {
-            // console.log(item)
-            return (
-              <li key={index}>
-                {item.title}
-                <button onClick={()=>{handleClick(item.title)}}>x</button>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+        <div>
+          <ul>
+            {data.get_todo.map((item, index) => {
+              // console.log(item)
+              return (
+                <li key={index}>
+                  {item.title}
+                  <button
+                    onClick={() => {
+                      handleClick(item.title);
+                    }}
+                  >
+                    x
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       </div>
     );
   }
